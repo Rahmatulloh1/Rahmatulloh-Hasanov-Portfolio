@@ -180,40 +180,23 @@
     letter-spacing:-0.02em;
   }
 
-  /* ---------- ABOUT ---------- */
-  .about-layout{
+  .about-grid{
     display:grid;
     grid-template-columns: 1.1fr 0.9fr;
     gap:60px;
-    align-items:stretch;
-  }
-  .about-left{
-    display:flex;
-    flex-direction:column;
   }
   .about-text p{ font-size:17px; line-height:1.75; color:#2c2b25; margin-bottom:18px; }
   .about-text p:last-child{ margin-bottom:0; }
+  .skills-list{ display:flex; flex-direction:column; gap:0; }
+  .skills-list .row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 0; border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace; font-size:13px;
+  }
+  .skills-list .row:first-child{ border-top:1px solid var(--line); }
+  .skills-list .row span:last-child{ color:var(--muted); }
+  @media (max-width:800px){ .about-grid{ grid-template-columns:1fr; } }
 
-  .about-photo{
-    position:relative;
-    overflow:hidden;
-    border-radius: var(--radius);
-    background:var(--paper-2);
-    min-height:320px;
-  }
-  .about-photo img{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-    object-fit:cover;
-    display:block;
-    filter:grayscale(0.15);
-  }
-  @media (max-width:800px){
-    .about-layout{ grid-template-columns:1fr; }
-    .about-photo{ order:-1; aspect-ratio:4/5; min-height:0; }
-  }
-
-  /* ---------- WORK GRID ---------- */
   .work-grid{
     display:grid;
     grid-template-columns: repeat(6, 1fr);
@@ -222,69 +205,65 @@
     border:1px solid var(--line);
   }
   .work-card{
-    position:relative;
+    background:var(--paper);
     grid-column: span 3;
-    min-height:340px;
+    padding:26px;
+    min-height:280px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    position:relative;
     overflow:hidden;
-    display:block;
-    background:var(--ink);
+    transition: background .2s ease;
   }
   .work-card:nth-child(3n+1){ grid-column: span 4; }
-  .work-card:nth-child(3n+2){ grid-column: span 2; min-height:300px; }
+  .work-card:nth-child(3n+2){ grid-column: span 2; }
   @media (max-width: 900px){
-    .work-card, .work-card:nth-child(3n+1), .work-card:nth-child(3n+2){ grid-column: span 6; min-height:320px; }
+    .work-card, .work-card:nth-child(3n+1), .work-card:nth-child(3n+2){ grid-column: span 6; }
   }
-
-  .work-card img{
+  .work-card:hover{ background:var(--paper-2); }
+  .work-card .swatch{
     position:absolute; inset:0;
-    width:100%; height:100%;
-    object-fit:cover;
-    transition: transform .5s ease;
+    opacity:0.9;
+    z-index:0;
   }
-  .work-card:hover img{ transform:scale(1.05); }
-
-  .work-card::before{
-    content:"";
-    position:absolute; top:0; left:0; right:0; height:80px;
-    background:linear-gradient(180deg, rgba(20,20,15,0.55), rgba(20,20,15,0));
-    z-index:1; pointer-events:none;
-  }
-  .work-card::after{
-    content:"";
-    position:absolute; bottom:0; left:0; right:0; height:60%;
-    background:linear-gradient(180deg, rgba(20,20,15,0) 0%, rgba(20,20,15,0.9) 100%);
-    z-index:1; pointer-events:none;
-  }
-
-  .work-card .content{
-    position:relative; z-index:2;
-    height:100%;
-    padding:18px 22px 22px;
-    display:flex; flex-direction:column; justify-content:space-between;
-  }
-  .work-card .top-row{ display:flex; justify-content:space-between; align-items:center; }
+  .work-card .content{ position:relative; z-index:2; }
   .work-card .num{
     font-family:'JetBrains Mono', monospace;
-    font-size:11px; color:var(--paper);
-    opacity:0.85;
-  }
-  .work-card .arrow{
-    font-family:'JetBrains Mono', monospace;
-    font-size:13px; color:var(--paper);
+    font-size:11px; color:var(--muted);
   }
   .work-card .name{
     font-family:'Space Grotesk', sans-serif;
-    font-weight:700; font-size:19px;
-    line-height:1.25;
-    color:var(--paper);
-    letter-spacing:-0.01em;
+    font-weight:700; font-size:22px;
+    margin-top:auto; letter-spacing:-0.01em;
   }
   .work-card .tag{
     font-family:'JetBrains Mono', monospace;
-    font-size:11px; color:var(--paper);
-    opacity:0.75;
+    font-size:11px; color:var(--muted);
     margin-top:8px;
   }
+  .work-card .arrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    align-self:flex-end;
+  }
+
+  .work-img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    z-index:0;
+    transition: transform .5s ease;
+  }
+  .work-card:hover .work-img{ transform: scale(1.04); }
+  .work-card.has-img::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(20,20,15,0.10) 0%, rgba(20,20,15,0.72) 100%);
+    z-index:1;
+  }
+  .work-card.has-img .num,
+  .work-card.has-img .name,
+  .work-card.has-img .arrow{ color:#F1F2ED; }
+  .work-card.has-img .tag{ color:#C9C7BA; }
 
   .services{ display:flex; flex-direction:column; }
   .service-row{
@@ -391,37 +370,39 @@
 
   <!-- HERO -->
   <section class="hero wrap">
-    <div class="hero-eyebrow"><span class="dot"></span> <span data-i18n="hero_eyebrow">GRAFIK DIZAYNER — TOSHKENT</span></div>
+    <div class="hero-eyebrow"><span class="dot"></span> <span data-i18n="hero_eyebrow">GRAFIK DIZAYNER — O'ZBEKISTON</span></div>
     <h1 class="hero-title">
       <span class="line" data-i18n="hero_l1">Vizual g'oyalarni</span>
       <span class="line"><span class="accent" data-i18n="hero_l2">aniq shaklga</span></span>
       <span class="line" data-i18n="hero_l3">keltiraman.</span>
     </h1>
-    <p class="hero-sub" data-i18n="hero_sub">Brending, print va raqamli dizayn yo'nalishida ishlayman — har bir loyihada aniqlik, ritm va tarkibga e'tibor bilan yondashaman.</p>
+    <p class="hero-sub" data-i18n="hero_sub">Ijtimoiy tarmoq dizayni, logotip, print va raqamli dizayn yo'nalishida ishlayman — har bir loyihada aniqlik, ritm va tarkibga e'tibor bilan yondashaman.</p>
 
     <div class="hero-meta">
       <div class="item"><div class="k" data-i18n="meta_k1">FAOLIYAT</div><div class="v" data-i18n="meta_v1">2023 — hozirgi kun</div></div>
       <div class="item"><div class="k" data-i18n="meta_k2">YO'NALISH</div><div class="v" data-i18n="meta_v2">Brending / Logotip / SMM / Print / Digital</div></div>
       <div class="item"><div class="k" data-i18n="meta_k3">HOLAT</div><div class="v" data-i18n="meta_v3">Yangi loyihalarga ochiq</div></div>
-      <div class="item"><div class="k" data-i18n="meta_k4">TELEGRAM</div><div class="v">@portfolio_kanal</div></div>
+      <div class="item"><div class="k" data-i18n="meta_k4">TELEGRAM</div><div class="v">@rh_portfolio</div></div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about" class="sec wrap">
-    <div class="about-layout">
-      <div class="about-left">
-        <div class="sec-head">
-          <div class="sec-title fade-up" data-i18n="sec_about_title">Men haqimda</div>
-          <div class="sec-label">01 / 04</div>
-        </div>
-        <div class="about-text fade-up">
-          <p data-i18n="about_p1">Bir necha yildan beri grafik dizayn sohasida ishlab kelaman — brend identifikatsiyasidan tortib, ijtimoiy tarmoq uchun vizual kontentgacha. Har bir loyihaga mijozning maqsadidan kelib chiqib yondashaman, shakl har doim mazmunga xizmat qilishi kerak deb hisoblayman.</p>
-          <p data-i18n="about_p2">Ishlarimning katta qismini Telegram kanalimda kuzatib borishingiz mumkin — bu yerda esa eng saralangan loyihalarni to'plab qo'ydim.</p>
-        </div>
+    <div class="sec-head">
+      <div class="sec-title fade-up" data-i18n="sec_about_title">Men haqimda</div>
+      <div class="sec-label">01 / 04</div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <p data-i18n="about_p1">Bir necha yildan beri grafik dizayn sohasida ishlab kelaman — brend identifikatsiyasidan tortib, ijtimoiy tarmoq uchun vizual kontentgacha. Har bir loyihaga mijozning maqsadidan kelib chiqib yondashaman, shakl har doim mazmunga xizmat qilishi kerak deb hisoblayman.</p>
+        <p data-i18n="about_p2">Ishlarimning katta qismini Telegram kanalimda kuzatib borishingiz mumkin — bu yerda esa eng saralangan loyihalarni to'plab qo'ydim.</p>
       </div>
-      <div class="about-photo fade-up">
-        <img src="profile.jpg" alt="Rahmatulloh Hasanov">
+      <div class="skills-list fade-up">
+        <div class="row"><span data-i18n="skill1">Brend identifikatsiya</span><span>LOGO / GUIDELINE</span></div>
+        <div class="row"><span data-i18n="skill2">Print dizayn</span><span>POSTER / PACKAGING</span></div>
+        <div class="row"><span data-i18n="skill3">Digital / SMM</span><span>SOCIAL / BANNER</span></div>
+        <div class="row"><span data-i18n="skill4">UI dizayn</span><span>WEB / MOBILE</span></div>
+        <div class="row"><span data-i18n="skill5">Dasturlar</span><span>FIGMA · AI · PS</span></div>
       </div>
     </div>
   </section>
@@ -433,73 +414,60 @@
       <div class="sec-label">02 / 04</div>
     </div>
     <div class="work-grid fade-up">
-
-      <div class="work-card">
-        <img src="loyiha1.jpg" alt="Media 63 agentligi uchun SMM post">
+      <div class="work-card has-img">
+        <img class="work-img" src="loyiha1.jpg" alt="Media 63 agentligi uchun tayyorlangan SMM post">
+        <div class="content num">01</div>
         <div class="content">
-          <div class="top-row"><span class="num">01</span><span class="arrow">↗</span></div>
-          <div>
-            <div class="name">"Media 63" agentligi uchun tayyorlangan SMM post</div>
-            <div class="tag">SMM — 2025</div>
-          </div>
+          <div class="name">Media 63 — SMM post</div>
+          <div class="tag">SMM DIZAYN</div>
         </div>
+        <div class="content arrow">↗</div>
       </div>
-
-      <div class="work-card">
-        <img src="loyiha2.jpg" alt="Mandarin uchun post">
+      <div class="work-card has-img">
+        <img class="work-img" src="loyiha2.jpg" alt="Mandarin uchun tayyorlangan post">
+        <div class="content num">02</div>
         <div class="content">
-          <div class="top-row"><span class="num">02</span><span class="arrow">↗</span></div>
-          <div>
-            <div class="name">Mandarin uchun tayyorlangan post</div>
-            <div class="tag">SOCIAL MEDIA — 2025</div>
-          </div>
+          <div class="name">Mandarin — SMM post</div>
+          <div class="tag">SMM DIZAYN</div>
         </div>
+        <div class="content arrow">↗</div>
       </div>
-
-      <div class="work-card">
-        <img src="loyiha3.jpg" alt="Ovozli suhbat uchun kreativ dizayn">
+      <div class="work-card has-img">
+        <img class="work-img" src="loyiha3.jpg" alt="Ovozli suhbat uchun ijtimoiy tarmoq dizayni">
+        <div class="content num">03</div>
         <div class="content">
-          <div class="top-row"><span class="num">03</span><span class="arrow">↗</span></div>
-          <div>
-            <div class="name">Kreativ ijtimoiy tarmoq dizayni: ovozli suhbat uchun</div>
-            <div class="tag">SOCIAL MEDIA — 2025</div>
-          </div>
+          <div class="name">Ovozli suhbat</div>
+          <div class="tag">SMM DIZAYN</div>
         </div>
+        <div class="content arrow">↗</div>
       </div>
-
-      <div class="work-card">
-        <img src="loyiha4.jpg" alt="Multi Do Russian Challange YouTube muqovasi">
+      <div class="work-card has-img">
+        <img class="work-img" src="loyiha4.jpg" alt="Multi Do Russian Challenge YouTube kanali uchun muqova">
+        <div class="content num">04</div>
         <div class="content">
-          <div class="top-row"><span class="num">04</span><span class="arrow">↗</span></div>
-          <div>
-            <div class="name">"Multi Do Russian Challange" YouTube kanali uchun muqova dizayni</div>
-            <div class="tag">YOUTUBE THUMBNAIL — 2024</div>
-          </div>
+          <div class="name">Multi Do Russian Challenge</div>
+          <div class="tag">YOUTUBE MUQOVA</div>
         </div>
+        <div class="content arrow">↗</div>
       </div>
-
-      <div class="work-card">
-        <img src="loyiha5.jpg" alt="Intervyu shou YouTube muqovasi">
+      <div class="work-card has-img">
+        <img class="work-img" src="loyiha5.jpg" alt="Intervyu shou YouTube kanali uchun muqova">
+        <div class="content num">05</div>
         <div class="content">
-          <div class="top-row"><span class="num">05</span><span class="arrow">↗</span></div>
-          <div>
-            <div class="name">"Intervyu shou" YouTube kanali uchun tayyorlangan muqova</div>
-            <div class="tag">YOUTUBE THUMBNAIL — 2024</div>
-          </div>
+          <div class="name">Intervyu shou</div>
+          <div class="tag">YOUTUBE MUQOVA</div>
         </div>
+        <div class="content arrow">↗</div>
       </div>
-
-      <div class="work-card">
-        <img src="loyiha6.jpg" alt="Kreativ ijtimoiy tarmoq dizayni">
+      <div class="work-card has-img">
+        <img class="work-img" src="loyiha6.jpg" alt="Bad Driver kreativ ijtimoiy tarmoq dizayni">
+        <div class="content num">06</div>
         <div class="content">
-          <div class="top-row"><span class="num">06</span><span class="arrow">↗</span></div>
-          <div>
-            <div class="name">Kreativ ijtimoiy tarmoq dizayni</div>
-            <div class="tag">SOCIAL MEDIA — 2023</div>
-          </div>
+          <div class="name">Bad Driver</div>
+          <div class="tag">KREATIV DIZAYN</div>
         </div>
+        <div class="content arrow">↗</div>
       </div>
-
     </div>
   </section>
 
@@ -544,7 +512,7 @@
       <span class="accent" data-i18n="contact_l2">Keling, gaplashamiz.</span>
     </div>
     <div class="contact-links fade-up">
-      <a class="primary" href="https://t.me/rh_portfolio" target="_blank" rel="noopener">Telegram — @portfolio_kanal ↗</a>
+      <a class="primary" href="https://t.me/rh_portfolio" target="_blank" rel="noopener">Telegram — @rh_portfolio ↗</a>
       <a href="mailto:rahmatullohhasanov12@gmail.com" data-i18n="contact_email">Email yuborish</a>
       <a href="#work" data-i18n="contact_work">Ishlarni ko'rish</a>
     </div>
@@ -553,7 +521,7 @@
 </main>
 
 <footer class="wrap">
-  <div>© 2026 — ISM FAMILIYA</div>
+  <div>© 2026 — Rahmatulloh Hasanov</div>
   <div data-i18n="footer_loc">TOSHKENT, O'ZBEKISTON</div>
 </footer>
 
@@ -574,12 +542,13 @@
       hero_l1: "Vizual g'oyalarni", hero_l2: "aniq shaklga", hero_l3: "keltiraman.",
       hero_sub: "Ijtimoiy tarmoq dizayni, logotip, print va raqamli dizayn yo'nalishida ishlayman — har bir loyihada aniqlik, ritm va tarkibga e'tibor bilan yondashaman.",
       meta_k1: "FAOLIYAT", meta_v1: "2023 — hozirgi kun",
-      meta_k2: "YO'NALISH", meta_v2: "Brending / Logotip/ SMD / Print / Digital",
+      meta_k2: "YO'NALISH", meta_v2: "Brending / Logotip / SMM / Print / Digital",
       meta_k3: "HOLAT", meta_v3: "Yangi loyihalarga ochiq",
-      meta_k4: "TELEGRAM", meta_v4: "https://t.me/rh_portfolio",
+      meta_k4: "TELEGRAM",
       sec_about_title: "Men haqimda",
       about_p1: "Bir necha yildan beri grafik dizayn sohasida ishlab kelaman — brend identifikatsiyasidan tortib, ijtimoiy tarmoq uchun vizual kontentgacha. Har bir loyihaga mijozning maqsadidan kelib chiqib yondashaman, shakl har doim mazmunga xizmat qilishi kerak deb hisoblayman.",
       about_p2: "Ishlarimning katta qismini Telegram kanalimda kuzatib borishingiz mumkin — bu yerda esa eng saralangan loyihalarni to'plab qo'ydim.",
+      skill1: "Brend identifikatsiya", skill2: "Print dizayn", skill3: "Digital / SMM", skill4: "UI dizayn", skill5: "Dasturlar",
       sec_work_title: "Tanlangan ishlar",
       sec_services_title: "Xizmatlar",
       service1_t: "Brend identifikatsiya", service1_d: "LOGO, RANG PALITRASI, TIPOGRAFIYA",
@@ -599,10 +568,11 @@
       meta_k1: "ОПЫТ", meta_v1: "2023 — по настоящее время",
       meta_k2: "НАПРАВЛЕНИЕ", meta_v2: "Брендинг / Полиграфия / Digital",
       meta_k3: "СТАТУС", meta_v3: "Открыт для новых проектов",
-      meta_k4: "TELEGRAM", meta_v4: "https://t.me/rh_portfolio",
+      meta_k4: "TELEGRAM",
       sec_about_title: "Обо мне",
       about_p1: "Уже несколько лет занимаюсь графическим дизайном — от фирменного стиля до визуального контента для соцсетей. В каждом проекте отталкиваюсь от цели клиента: форма всегда должна служить содержанию.",
       about_p2: "Большую часть моих работ можно найти в Telegram-канале — здесь же собраны самые сильные проекты.",
+      skill1: "Фирменный стиль", skill2: "Полиграфический дизайн", skill3: "Digital / SMM", skill4: "UI дизайн", skill5: "Инструменты",
       sec_work_title: "Избранные работы",
       sec_services_title: "Услуги",
       service1_t: "Фирменный стиль", service1_d: "ЛОГОТИП, ПАЛИТРА, ТИПОГРАФИКА",
@@ -619,13 +589,14 @@
       hero_eyebrow: "GRAPHIC DESIGNER — TASHKENT",
       hero_l1: "Turning visual ideas", hero_l2: "into precise", hero_l3: "form.",
       hero_sub: "I work across branding, print and digital design — every project is approached with precision, rhythm and attention to detail.",
-      meta_k1: "EXPERIENCE", meta_v1: "2023 — present",
+      meta_k1: "EXPERIENCE", meta_v1: "2019 — present",
       meta_k2: "FOCUS", meta_v2: "Branding / Print / Digital",
       meta_k3: "STATUS", meta_v3: "Open for new projects",
       meta_k4: "TELEGRAM",
       sec_about_title: "About",
       about_p1: "I've been working in graphic design for several years — from brand identity to visual content for social media. Every project starts from the client's goal: form should always serve content.",
       about_p2: "You can follow most of my work on my Telegram channel — here I've gathered a selection of my strongest projects.",
+      skill1: "Brand identity", skill2: "Print design", skill3: "Digital / Social", skill4: "UI design", skill5: "Tools",
       sec_work_title: "Selected work",
       sec_services_title: "Services",
       service1_t: "Brand identity", service1_d: "LOGO, COLOR PALETTE, TYPOGRAPHY",
